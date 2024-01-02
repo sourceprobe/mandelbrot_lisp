@@ -6,12 +6,6 @@
 (defconstant RESOLUTION_X 150)
 (defconstant RESOLUTION_Y 60)
 
-(defun for (start end fn)
-    (if (>= start end)
-        't
-        (progn
-            (apply fn (list start))
-            (for (+ 1 start) end fn))))
 
 ; turn # interations into a char for display
 (defun show (val) 
@@ -34,14 +28,11 @@
                   (ynext (+ yi (* x y 2))))
                 (calc_inner xnext ynext (+ 1 iters)))))
     (calc_inner 0 0 0)))
-(defun draw_row (y width)
-    (for 0 width (lambda (x)
-        (princ (show (calc x y))))))
 (defun draw_window (width height) 
-    (for 0 height (lambda (y)
-        (progn
-            (draw_row y width)
-            (terpri)))))
+  (dotimes (y height)
+    (dotimes (x width)
+        (princ (show (calc x y))))
+    (terpri)))
         
 (defun main ()
     (draw_window RESOLUTION_X RESOLUTION_Y))
